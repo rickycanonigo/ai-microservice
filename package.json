@@ -29,6 +29,7 @@
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^3.1.4",
     "openai": "^4.52.1",
+    "redis": "^4.6.15",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
   }

@@ -2,6 +2,7 @@ const cron = require('node-cron');
 const fetchScheduledEmails = require('../Modules/ScheduledEmails');
 const emailQueue = require('../queues/emailQueue');
 const convertCronDate = require('../lib/helpers/convertDatetimeToCron');
+const redis = require('../config/redis');
 
 let cronJobs = {};
 
@@ -26,6 +27,9 @@ async function scheduleEmails() {
           to_email: emailData.to_email,
           subject: emailData.subject,
           body: emailData.body
+        }, {
+          connection: redis,
+          maxRetriesPerRequest: null // Explicitly set this to null for the queue
         });
         console.log(`Email scheduled for ${emailData.to_email} added to the queue`);
       }, {

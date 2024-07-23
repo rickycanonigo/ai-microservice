@@ -7,6 +7,7 @@ const { createBullBoard } = require('@bull-board/api');
 const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
 const { ExpressAdapter } = require('@bull-board/express');
 const emailQueue = require('./queues/emailQueue'); // Your email queue
+const notificationQueue = require('../sample-bullmq/producer'); // Your email queue
 require('./jobs/emailWorker'); // Email worker
 
 
@@ -30,7 +31,10 @@ cron.schedule('* * * * *', () => {
 const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath('/admin/queues');
 createBullBoard({
-  queues: [new BullMQAdapter(emailQueue)],
+  queues: [
+    // new BullMQAdapter(emailQueue),
+    new BullMQAdapter(notificationQueue),
+  ],
   serverAdapter,
 });
 app.use('/admin/queues', serverAdapter.getRouter());
